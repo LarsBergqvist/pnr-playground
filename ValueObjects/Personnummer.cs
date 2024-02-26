@@ -15,9 +15,7 @@ public record Personnummer
 
     public long Pnr { get; }
     public Gender PersonGender { get; private init; }
-    public bool IsSamordningsNummer { get; private init; }
     
-    public long ToLong() => Pnr;
     public string To12DigitString() => Pnr.ToString("D12");
 
     public static Personnummer CreateFrom12DigitString(string yyyymmddnnnn)
@@ -25,16 +23,14 @@ public record Personnummer
         ValidatePnr(yyyymmddnnnn);
 
         var gender = (yyyymmddnnnn[10] - '0') % 2 == 0 ? Gender.Female : Gender.Male;
-        var isSamordningsnummer = (yyyymmddnnnn[6] - '0') >= 6;
 
-        return new Personnummer(long.Parse(yyyymmddnnnn), gender, isSamordningsnummer);
+        return new Personnummer(long.Parse(yyyymmddnnnn), gender);
     }
 
-    private Personnummer(long pnr, Gender gender, bool isSamordningsNummer)
+    private Personnummer(long pnr, Gender gender)
     {
         Pnr = pnr;
         PersonGender = gender;
-        IsSamordningsNummer = isSamordningsNummer;
     }
 
     private static void ValidatePnr(string yyyymmddnnnn)
@@ -48,6 +44,14 @@ public record Personnummer
         {
             throw new ArgumentException("Personnummer must be all digits");
         }
+        
+        var month = int.Parse(yyyymmddnnnn[4..6]);
+        var day = int.Parse(yyyymmddnnnn[6..8]);
+        if (month < 1 || month > 12 || day < 1 || day > 31)
+        {
+            throw new ArgumentException("Personnummer has invalid month or day");
+        }
+        
         if (!IsChecksumCorrect(yyyymmddnnnn[2..]))
         {
             throw new ArgumentException("Personnummer failed checkum");

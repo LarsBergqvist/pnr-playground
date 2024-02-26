@@ -6,38 +6,35 @@ namespace UnitTests;
 public class PersonnummerTests
 {
     [Fact]
-    public void Should_Create_Valid_Personnummer()
+    public void Should_Create_Valid_Personnummer_1900()
     {
-        var lines = File.ReadAllLines("Testpersonnummer 1990-1999.csv");
+        var lines = File.ReadAllLines("Testpersonnummer1990-1999.csv");
         foreach (var line in lines.Skip(1))
         {
             var pnr = Personnummer.CreateFrom12DigitString(line);
             Assert.Equal(line, pnr.To12DigitString());
-            Assert.True(!pnr.IsSamordningsNummer);
         }
     }
-    
+
     [Fact]
-    public void Should_Create_Valid_Samordningsnummer()
+    public void Should_Create_Valid_Personnummer_2000()
     {
-        var lines = File.ReadAllLines("Test_samordn_nr2019.csv");
+        var lines = File.ReadAllLines("Testpersonnummer2000-2009.csv");
         foreach (var line in lines.Skip(1))
         {
             var pnr = Personnummer.CreateFrom12DigitString(line);
             Assert.Equal(line, pnr.To12DigitString());
-            Assert.True(pnr.IsSamordningsNummer);
         }
     }
-    
+
     [Fact]
     public void ValidMalePnr_CreatesCorrectPersonnummer()
     {
         var validPnr = "199001072397";
         var result = Personnummer.CreateFrom12DigitString(validPnr);
 
-        Assert.Equal(199001072397, result.ToLong());
+        Assert.Equal(199001072397, result.Pnr);
         Assert.Equal(Personnummer.Gender.Male, result.PersonGender);
-        Assert.False(result.IsSamordningsNummer);
     }
 
     [Fact]
@@ -46,9 +43,8 @@ public class PersonnummerTests
         var validPnr = "199001052381";
         var result = Personnummer.CreateFrom12DigitString(validPnr);
 
-        Assert.Equal(199001052381, result.ToLong());
+        Assert.Equal(199001052381, result.Pnr);
         Assert.Equal(Personnummer.Gender.Female, result.PersonGender);
-        Assert.False(result.IsSamordningsNummer);
     }
     
     [Fact]
@@ -66,6 +62,20 @@ public class PersonnummerTests
     }
 
     [Fact]
+    public void InvalidMonth_ThrowsException()
+    {
+        var invalidPnr = "200113011236";
+        Assert.Throws<ArgumentException>(() => Personnummer.CreateFrom12DigitString(invalidPnr));
+    }
+    
+    [Fact]
+    public void InvalidDay_ThrowsException()
+    {
+        var invalidPnr = "200102291236";
+        Assert.Throws<ArgumentException>(() => Personnummer.CreateFrom12DigitString(invalidPnr));
+    }
+    
+    [Fact]
     public void InvalidChecksum_ThrowsException()
     {
         var invalidPnr = "200101011236";
@@ -77,7 +87,7 @@ public class PersonnummerTests
     {
         var pnr = Personnummer.CreateFrom12DigitString("199001142398");
         var json = JsonSerializer.Serialize(pnr);
-        Assert.Equal("{\"Pnr\":199001142398,\"PersonGender\":0,\"IsSamordningsNummer\":false}", json);
+        Assert.Equal("{\"Pnr\":199001142398,\"PersonGender\":0}", json);
     }
     
     [Fact]

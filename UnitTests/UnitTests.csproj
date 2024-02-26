@@ -26,7 +26,10 @@
       <None Update="Testpersonnummer 1990-1999.csv">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="Test_samordn_nr2019.csv">
+      <None Update="Testpersonnummer1990-1999.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Testpersonnummer2000-2009.csv">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>
