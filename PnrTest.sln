@@ -9,6 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonGenerator", "PersonGenerator\PersonGenerator.csproj", "{50DCAF07-BE15-457C-A088-D65AD074B521}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonGeneratorConsole", "PersonGeneratorConsole\PersonGeneratorConsole.csproj", "{002D9476-D390-4417-80F0-92326A969D41}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,5 +27,13 @@ Global
 		{7747C878-51D2-476D-AC67-FEFA151CE9DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7747C878-51D2-476D-AC67-FEFA151CE9DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7747C878-51D2-476D-AC67-FEFA151CE9DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50DCAF07-BE15-457C-A088-D65AD074B521}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50DCAF07-BE15-457C-A088-D65AD074B521}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50DCAF07-BE15-457C-A088-D65AD074B521}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50DCAF07-BE15-457C-A088-D65AD074B521}.Release|Any CPU.Build.0 = Release|Any CPU
+		{002D9476-D390-4417-80F0-92326A969D41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{002D9476-D390-4417-80F0-92326A969D41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{002D9476-D390-4417-80F0-92326A969D41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{002D9476-D390-4417-80F0-92326A969D41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
