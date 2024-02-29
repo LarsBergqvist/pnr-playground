@@ -1,20 +1,18 @@
 ﻿using Bogus;
 using Bogus.DataSets;
+using PersonGenerator.Models;
 using ValueObjects;
-using Person = PersonGenerator.Models.Person;
 
 namespace PersonGenerator;
 
 public class Factory
 {
-    private readonly int _seed;
     private Personnummer[] _malePnrList;
     private Personnummer[] _femalePnrList;
 
     public Factory(int seed)
     {
-        _seed = seed;
-        Randomizer.Seed = new Random(_seed);
+        Randomizer.Seed = new Random(seed);
         LoadPersonnummer();
     }
 
@@ -27,23 +25,36 @@ public class Factory
         _femalePnrList = pnrList.Where(pnr => pnr.PersonGender == Personnummer.Gender.Female).ToArray();
     }
     
-    public Person CreatePerson(string locale)
+    public Models.Person CreatePerson(string locale)
     {
-        var personFaker = new Faker<Person>(locale)
-            .CustomInstantiator(faker => 
+        var addressFaker = new Faker<Models.Address>(locale)
+            .CustomInstantiator(f => new Models.Address(
+                f.Address.StreetAddress(),
+                f.Address.City(),
+                f.Address.ZipCode()
+            ));
+        var contactInfoFaker = new Faker<ContactInfo>(locale)
+            .CustomInstantiator(f => new ContactInfo(
+                f.Internet.Email(),
+                f.Phone.PhoneNumber("07#-###-####")
+            ));
+        var personFaker = new Faker<Models.Person>(locale)
+            .CustomInstantiator(_ => 
             {
                 var person = new Bogus.Person(locale);
-                Personnummer pnr;
-                pnr = person.Gender == Name.Gender.Male ? 
+                var pnr = person.Gender == Name.Gender.Male ? 
                     _malePnrList.ElementAt(Randomizer.Seed.Next(_malePnrList.Length)) : 
                     _femalePnrList.ElementAt(Randomizer.Seed.Next(_femalePnrList.Length));
-                return new Person(
+                return new Models.Person(
                     Guid.NewGuid(),
                     pnr,
                     person.FirstName,
-                    person.LastName
+                    person.LastName,
+                    contactInfoFaker.Generate(),
+                    addressFaker.Generate()
                 );
-            });
+            })
+            .FinishWith((f, c) => c.ContactInfo.Email = f.Internet.Email(c.FirstName, c.LastName));
         
         return personFaker.Generate();
     }

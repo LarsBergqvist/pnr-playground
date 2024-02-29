@@ -10,14 +10,14 @@ public class Person
     public string LastName { get; }
     public Address Address { get; }
     public ContactInfo ContactInfo { get; }
-    public Person(Guid id, Personnummer personnummer, string firstName, string lastName /*, ContactInfo contactInfo, Address address*/)
+    public Person(Guid id, Personnummer personnummer, string firstName, string lastName, ContactInfo contactInfo, Address address)
     {
         Id = id;
         Personnummer = personnummer;
         FirstName = firstName;
         LastName = lastName;
-//        ContactInfo = contactInfo;
-//        Address = address;
+        ContactInfo = contactInfo;
+        Address = address;
     }
     
 }
